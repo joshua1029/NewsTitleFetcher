@@ -1,2 +1,2 @@
-# firstcrawler
-我第一次學用python做爬蟲
+# first
+我在學習使用python的遊樂場
