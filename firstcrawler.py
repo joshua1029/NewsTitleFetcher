@@ -38,3 +38,5 @@ seen = set() #為了不讓輸出同樣內容而設置的集合
 while count <= 3:
     pageurl = getData(pageurl, count, seen)
     count += 1
+
+#試試看
