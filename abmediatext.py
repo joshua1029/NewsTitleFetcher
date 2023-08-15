@@ -59,34 +59,32 @@ def getAbTitle(pages, keyword):
         abTitle.extend(titles)
         count += 1
     
-    print(abTitle)
-    #return abTitle
+    return abTitle
 
-def getAbImg():
-    def getImg(imgs):
-        for img in imgs:
+def getAbImg(pages=1):  # 定義函數並給予默認頁碼為1
+    def getImg(imgs):  # 定義內部函數用來處理圖片URL
+        img_urls = []  # 初始化一個空的列表用來存放圖片URL
+        for img in imgs:  # 遍歷每一個圖片元素
             try:
-                url = img["src"]
-                name = img["alt"]
-                os.makedirs("abmediapic", exist_ok=True)
-                if len(name) > 5: # 真的找不到其他區分方法 只能用幾個字去判斷了
-                    resp = requests.get(url)
-                    img = resp.content
-                    with open(f"abmediapic/{name}.png", "wb") as file:
-                        file.write(img)
+                if "abmedia" in img["src"]:  # 檢查圖片URL中是否包含"abmedia"
+                    img_urls.append(img["src"])  # 如果包含，將其添加到列表中
             except:
-                pass
+                pass  # 如果有錯誤，就跳過
+        return img_urls  # 返回整理好的圖片URL列表
 
-    driver = webdriver.Chrome(service = Service(ChromeDriverManager().install())) 
+    # 這邊開始是用selenium來開啟網頁並獲取內容
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) 
+    driver.get(f"https://abmedia.io/blog/page/{pages}")  # 根據頁碼打開特定頁面
+    time.sleep(1)  # 等待1秒確保網頁加載完成
+    html = driver.page_source  # 獲取網頁的HTML內容
 
-    driver.get("https://abmedia.io/blog")
-    time.sleep(1)
-    html = driver.page_source
-
-    soup = bs4.BeautifulSoup(html, "html.parser")
-    imgs = soup.find_all("img")
-    getImg(imgs)
-    driver.quit()
+    soup = bs4.BeautifulSoup(html, "html.parser")  # 使用BeautifulSoup解析HTML
+    imgs = soup.find_all("img")  # 找到所有的圖片元素
+    
+    img_urls = getImg(imgs)  # 使用getImg獲取圖片URL
+    driver.quit()  # 關閉瀏覽器
+    
+    return img_urls  
 
 # 測試用的
 def main():
