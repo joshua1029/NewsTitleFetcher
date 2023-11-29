@@ -12,5 +12,6 @@
 ## 目前學到的新東西筆記  
 1.第一次學會使用git和github  
 2.原來寫README還挺麻煩的    
-3.第一次學會用request、bs4、selenium...之類的東西爬網站  
+3.第一次學會用request、bs4、selenium...之類的東西爬網站
+4.暫時放棄先顧考試 之後回來重新pick up看看  
 
